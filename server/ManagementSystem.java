@@ -16,7 +16,10 @@ public class ManagementSystem implements Serializable
 
     public void addUser(User user)
     {
-        users.add(user);
+        if (user != null)
+        {
+            users.add(user);
+        }
     }
 
     public void removeUser(User user)

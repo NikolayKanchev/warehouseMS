@@ -2,7 +2,7 @@ package warehouseMS.users.behaviours;
 
 import warehouseMS.server.ManagementSystem;
 import warehouseMS.users.User;
-import warehouseMS.users.UserFactory;
+import warehouseMS.factories.UserFactory;
 import java.net.Socket;
 import java.util.List;
 
@@ -131,7 +131,7 @@ public class ManagerWorkBehaviour implements WorkBehaviour
         address =  getUserInput("Address: ", socket);
         phone =  getUserInput("Phone: ", socket);
 
-        User user = uf.createUser(typeOfUser, name, address, phone);
+        User user = uf.create(typeOfUser, name, address, phone);
         ms.addUser(user);
         work(socket, ms, loggedUser);
     }

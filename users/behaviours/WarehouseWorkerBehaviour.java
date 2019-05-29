@@ -223,28 +223,26 @@ public class WarehouseWorkerBehaviour implements WorkBehaviour
             }
         }
 
-        Product item = new Product.Builder(name, price).build();
-
         ms.sendMessage("Do you want to set the rest of the item fields?\n1. yes\n2. no", socket);
         int userChoice = ms.validateChoice(2, socket);
 
-        item.setBrand("");
-        item.setModel("");
-        item.setDescription("");
-        item.setRack(0);
-        item.setRackShelf(0);
-        item.setSection(0);
+        Product item;
 
         if (userChoice == 1)
         {
-            moreOptions(item);
+           item = createItemMoreOptions(name, price);
+        }else
+        {
+            item = new Product.Builder(name, price).build();
         }
 
         return item;
     }
 
-    private void moreOptions(Product item)
+    private Product createItemMoreOptions(String name, double price)
     {
+        Product.Builder product = new Product.Builder(name, price);
+
         optionsMenu: while (true)
         {
             ms.sendMessage(
@@ -264,37 +262,39 @@ public class WarehouseWorkerBehaviour implements WorkBehaviour
                 case 1:
                     ms.sendMessage("Brand: ", socket);
                     String brand = ms.getReceivedString(socket);
-                    item.setBrand(brand);
+                    product.setBrand(brand);
                     break;
                 case 2:
                     ms.sendMessage("Model: ", socket);
                     String model = ms.getReceivedString(socket);
-                    item.setModel(model);
+                    product.setModel(model);
                     break;
                 case 3:
                     ms.sendMessage("Description: ", socket);
                     String description = ms.getReceivedString(socket);
-                    item.setDescription(description);
+                    product.setDescription(description);
                     break;
                 case 4:
                     ms.sendMessage("Rack: ", socket);
                     int rack = getIntegerInput(socket);
-                    item.setRack(rack);
+                    product.setRack(rack);
                     break;
                 case 5:
                     ms.sendMessage("Rack shelf: ", socket);
                     int rackShelf = getIntegerInput(socket);
-                    item.setRackShelf(rackShelf);
+                    product.setRackShelf(rackShelf);
                     break;
                 case 6:
                     ms.sendMessage("Section: ", socket);
                     int section = getIntegerInput(socket);
-                    item.setRackShelf(section);
+                    product.setRackShelf(section);
                     break;
                 case 7:
                     break optionsMenu;
             }
         }
+
+        return product.build();
     }
 
     private int getIntegerInput(Socket socket)
